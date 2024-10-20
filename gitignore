@@ -1,2 +1,2 @@
-venv/
-black_and_white_api/media
+/venv
+/black_and_white_api/media
