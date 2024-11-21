@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-qtcx8-oqmjy!6m$-z59um+ujb0ewf@k8=qdqk79b!h7*blfrxx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
 
 
 # Application definition
@@ -51,11 +51,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-]
+CORS_ALLOW_ALL_ORIGINS = True  # すべてのオリジンからのアクセスを許可
+ALLOWED_HOSTS = ['*']
+
 
 ROOT_URLCONF = 'black_and_white_api.urls'
 

@@ -36,11 +36,11 @@ class UploadImage(models.Model):
     id = models.AutoField(primary_key=True)
     contents_image = models.ImageField(verbose_name='contents_image', upload_to='img/', validators=[validate_is_picture, validate_max_size],)
     style_num = models.ForeignKey(Styles, on_delete=models.CASCADE)
-    created_image = models.ImageField(verbose_name='created_image', upload_to='created_img/',)
+    created_image = models.ImageField(verbose_name='created_image', upload_to='created_img/',null=True)
 
     class Meta:
         verbose_name_plural = 'UploadImage'
-    
+
     def transform(self):
 
         # アップロードされたファイルから画像オブジェクト生成
@@ -59,4 +59,4 @@ class UploadImage(models.Model):
         self.created_image.delete()
 
         # bufferのデータをファイルとして保存（レコードの更新も行われる）
-        self.created_image.save(name=self.contents_image.name, content=buffer)
+        self.save(name=self.name, content=buffer)
