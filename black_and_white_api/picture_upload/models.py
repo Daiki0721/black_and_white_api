@@ -41,22 +41,12 @@ class UploadImage(models.Model):
     class Meta:
         verbose_name_plural = 'UploadImage'
 
-    def transform(self):
+    def delete(self):
+        try:
+            #最新のレコードを取得
+            original_uploadimage = UploadImage.objects.latest("created_image")
+            if original_uploadimage.created_image:
+                original_uploadimage.created_image.delete()
 
-        # アップロードされたファイルから画像オブジェクト生成
-        org_img = Image.open(self.contents_image)
-
-        # PILでの画像処理ここから！
-        gray_img = org_img.convert('L')
-
-        # PILでの画像処理ここまで！
-
-        # 画像処理後の画像のデータをbufferに保存
-        buffer = io.BytesIO()
-        gray_img.save(fp=buffer, format=org_img.format)
-
-        # 以前保存した画像処理後の画像ファイルを削除
-        self.created_image.delete()
-
-        # bufferのデータをファイルとして保存（レコードの更新も行われる）
-        self.save(name=self.name, content=buffer)
+        except self.DoesNotExist:
+            pass
